@@ -68,7 +68,28 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // Toggle task completion
+    function toggleTaskCompletion(id) {
+        const taskIndex = tasks.findIndex((task) => task.id === id);
+        if (taskIndex !== -1) {
+            tasks[taskIndex].completed = !tasks[taskIndex].completed;
+            updateLocalStorage();
+            displayTasks();
+        }
+    }
 
+    // Delete a task
+    function deleteTask(id) {
+        const taskIndex = tasks.findIndex((task) => task.id === id);
+        if (taskIndex !== -1) {
+            tasks.splice(taskIndex, 1);
+            updateLocalStorage();
+            displayTasks();
+        }
+    }
 
-   
+    // Update tasks in localStorage
+    function updateLocalStorage() {
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
 });
