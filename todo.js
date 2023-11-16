@@ -32,6 +32,42 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // Search for tasks
+    searchTaskButton.addEventListener("click", function () {
+        const searchTerm = searchInput.value.trim().toLowerCase();
+        const filteredTasks = tasks.filter((task) =>
+            task.title.toLowerCase().includes(searchTerm)
+        );
+        displayTasks(filteredTasks);
+    });
+
+    // Display tasks
+    function displayTasks(displayedTasks = tasks) {
+        taskList.innerHTML = "";
+        totalTasks.textContent = tasks.length;
+        completedTasks.textContent = tasks.filter((task) => task.completed).length;
+        remainingTasks.textContent = tasks.filter((task) => !task.completed).length;
+
+        displayedTasks.forEach((task) => {
+            const taskItem = document.createElement("div");
+            taskItem.className = `task-item ${task.completed ? "complete" : ""}`;
+            taskItem.innerHTML = `
+                <span>${task.title}</span>
+                <button class="delete-button" data-id="${task.id}">Delete</button>
+            `;
+
+            taskItem.querySelector("button.delete-button").addEventListener("click", function () {
+                deleteTask(task.id);
+            });
+
+            taskItem.addEventListener("click", function () {
+                toggleTaskCompletion(task.id);
+            });
+
+            taskList.appendChild(taskItem);
+        });
+    }
+
 
 
    
